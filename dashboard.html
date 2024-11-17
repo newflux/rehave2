@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re-Have Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #4a0e4e;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .methods {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .method-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: calc(50% - 20px);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .method-card:hover {
+            transform: translateY(-5px);
+        }
+        .method-card h2 {
+            color: #4a0e4e;
+        }
+        .method-card p {
+            color: #666;
+        }
+        .method-card button {
+            background-color: #81379e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .method-card button:hover {
+            background-color: #9a4cbf;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, <span id="user-name">User</span>!</h1>
+    </header>
+    <div class="container">
+        <div class="methods">
+            <div class="method-card">
+                <h2>Meditation</h2>
+                <p>Recenter and recharge your cognitive capacity.</p>
+                <button onclick="location.href='meditation.html'">Start Meditation</button>
+            </div>
+            <div class="method-card">
+                <h2>Art Therapy</h2>
+                <p>Express yourself through creative drawing.</p>
+                <button onclick="location.href='art-therapy.html'">Start Art Therapy</button>
+            </div>
+            <div class="method-card">
+                <h2>Green Serenity</h2>
+                <p>Expand your cognitive space through green exposure.</p>
+                <button onclick="location.href='green-game.html'">Play Green Serenity</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to get user name from Google Sign-In (to be implemented)
+        function getUserName() {
+            // This should be replaced with actual Google Sign-In data
+            return "John Doe";
+        }
+
+        // Set user name in the header
+        document.getElementById('user-name').textContent = getUserName();
+
+        // Function to open Art Therapy (to be implemented)
+        function openArtTherapy() {
+            // This will be implemented in the next step
+            alert("Art Therapy feature coming soon!");
+        }
+    </script>
+</body>
+</html>

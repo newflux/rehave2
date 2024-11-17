@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Therapy - Re-Have</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #4a0e4e;
+        }
+        #mindfulness-question {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e0e7ff;
+            border-radius: 5px;
+        }
+        #canvas {
+            border: 2px solid #4a0e4e;
+            cursor: crosshair;
+        }
+        .tools {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #81379e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+        button:hover {
+            background-color: #9a4cbf;
+        }
+        #color-picker {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Art Therapy</h1>
+        <div id="mindfulness-question"></div>
+        <canvas id="canvas" width="800" height="500"></canvas>
+        <div class="tools">
+            <button id="pencil">Pencil</button>
+            <button id="brush">Brush</button>
+            <input type="color" id="color-picker" value="#000000">
+            <button id="clear">Clear Canvas</button>
+            <button id="save">Save Artwork</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let tool = 'pencil';
+
+        const questions = [
+            "What did you eat today?",
+            "How do you feel right now?",
+            "What's one thing you're grateful for?",
+            "Describe your current surroundings.",
+            "Draw an image of your happy place?",
+            "What colors best represent your mood today?",
+            "Illustrate a moment from your day that made you smile.",
+            "Illustrate a scene that fills you with gratitude.",
+            "Draw an image of your favorite animal",
+            "Draw an image of your dream home",
+        ];
+
+        function setRandomQuestion() {
+            const questionEl = document.getElementById('mindfulness-question');
+            questionEl.textContent = questions[Math.floor(Math.random() * questions.length)];
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            draw(e);
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.lineWidth = tool === 'pencil' ? 2 : 5;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = document.getElementById('color-picker').value;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function saveArtwork() {
+            const sessionDuration = 45; // Example duration in minutes
+            const artworkDetails = "Created a colorful mandala"; // Example artwork description
+
+            // Call generateReport with appropriate parameters
+            generateReport(sessionDuration, artworkDetails);
+            // Here you would implement the logic to save the artwork to your database
+            // For now, we'll just simulate saving with an alert
+            alert('Artwork saved successfully!');
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mousemove', draw);
+
+        document.getElementById('pencil').addEventListener('click', () => tool = 'pencil');
+        document.getElementById('brush').addEventListener('click', () => tool = 'brush');
+        document.getElementById('clear').addEventListener('click', clearCanvas);
+        document.getElementById('save').addEventListener('click', saveArtwork);
+
+        // Set initial question
+        setRandomQuestion();
+    </script>
+    <div class="overlay">
+        <div class="report" id="report-content"></div>
+    </div>
+    <script src="report.js"></script>
+</body>
+</html>

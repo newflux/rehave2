@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Reset - Digital Rehab Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .meditation-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #4a0e4e, #81379e, #c490e4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            animation: pulse 4s infinite alternate;
+            cursor: pointer;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        .timer {
+            font-size: 3em;
+            color: #ffffff;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #81379e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+        .btn:hover {
+            background-color: #9a4cbf;
+        }
+        .message {
+            font-size: 1.2em;
+            margin-top: 20px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mindful Reset</h1>
+        <div class="meditation-circle">
+            <div class="timer">5:00</div>
+        </div>
+        <div class="controls">
+            <button class="btn start-btn">Start</button>
+            <button class="btn reset-btn">Reset</button>
+        </div>
+        <div class="message"></div>
+    </div>
+
+    <script>
+        const timer = document.querySelector('.timer');
+        const startBtn = document.querySelector('.start-btn');
+        const resetBtn = document.querySelector('.reset-btn');
+        const messageDiv = document.querySelector('.message');
+        let countdown;
+        let timeLeft = 300; // 5 minutes in seconds
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showMessage(message) {
+            messageDiv.textContent = message;
+            setTimeout(() => messageDiv.textContent = '', 3000);
+        }
+
+        function startMeditation() {
+            startBtn.textContent = 'Pause';
+            countdown = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    timer.textContent = "Done!";
+                    startBtn.textContent = 'Start';
+                    showMessage("Great job! You've completed your meditation.");
+                } else if (timeLeft === 180) { // 3 minutes left
+                    showMessage("Halfway there! Keep going!");
+                } else if (timeLeft === 60) { // 1 minute left
+                    showMessage("Almost done! Stay focused for the final minute.");
+                }
+            }, 1000);
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timer.textContent = "Done!";
+                startBtn.textContent = 'Start';
+                 showMessage("Great job! You've completed your meditation.");
+    
+                const sessionDuration = 5; // Duration in minutes
+                const meditationDetails = "Completed a meditation session.";
+                generateReport(sessionDuration, meditationDetails);
+            }
+        }
+
+        function pauseMeditation() {
+            clearInterval(countdown);
+            startBtn.textContent = 'Resume';
+        }
+
+        function resetMeditation() {
+            clearInterval(countdown);
+            timeLeft = 300;
+            updateTimer();
+            startBtn.textContent = 'Start';
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (startBtn.textContent === 'Start' || startBtn.textContent === 'Resume') {
+                startMeditation();
+            } else {
+                pauseMeditation();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetMeditation);
+    </script>
+    <div class="overlay">
+        <div class="report" id="report-content"></div>
+    </div>
+    <script src="report.js"></script>
+</body>
+</html>
